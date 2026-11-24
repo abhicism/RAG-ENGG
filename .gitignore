@@ -1,0 +1,14 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.env
+
+# Generated vector databases
+vector_store/
+**/vector_store/
+
+# Editor and OS files
+.DS_Store
+Thumbs.db

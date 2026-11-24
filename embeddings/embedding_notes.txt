@@ -1,0 +1,31 @@
+Embedding Script Notes
+=====================
+
+File: embedding.py
+
+What this script does:
+- Imports the SentenceTransformer library.
+- Loads a pretrained sentence embedding model: all-MiniLM-L6-v2.
+- Takes the text "I love Python programming".
+- Converts that text into a numerical vector using the model.
+- Prints the vector values.
+- Prints the number of dimensions in the vector.
+
+Why this matters:
+Sentence embedding models turn text into numeric vectors so that computers can compare, search, and retrieve similar meanings. These vectors are useful in RAG systems, semantic search, and recommendation tasks.
+
+What the output means:
+The model produces a dense vector of floating-point numbers. Each number represents a feature in a semantic space. The values are not human-readable by themselves, but they allow similarity comparison between sentences or documents.
+
+Example interpretation of the actual output:
+- The script prints a long list of decimal values (for example: -0.0795331523, 0.00864120387, ...).
+- These values are the embedding representation of the sentence.
+- The final printed value is 384.
+- This means the produced embedding has 384 dimensions.
+
+So the output is:
+- A 384-dimensional numerical vector for the text "I love Python programming"
+- The vector is used to represent the meaning of the sentence in a machine-readable format
+
+Important note:
+The actual values will vary slightly depending on library versions and runtime environment, but the structure remains the same: a vector of fixed length (here, 384).
