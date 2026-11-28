@@ -1,0 +1,234 @@
+{
+  "project": "RAG Engineering",
+  "root_path": "C:\\Users\\abhis\\OneDrive\\Desktop\\mu code\\RAG ENG",
+  "pipeline_flow": [
+    {
+      "stage": 1,
+      "name": "Document Loading",
+      "folder": "chapter_08_document_loading",
+      "entry_point": "chapter_08_document_loading/load_pdf.py",
+      "library": "pypdf",
+      "description": "Extracts raw text page-by-page from a PDF document."
+    },
+    {
+      "stage": 2,
+      "name": "Text Chunking",
+      "folders": ["text_processing", "chunking"],
+      "entry_points": [
+        "text_processing/chunk.py",
+        "chunking/chunking.py"
+      ],
+      "libraries": ["stdlib", "langchain-text-splitters"],
+      "description": "Splits text into overlapping chunks using word windows or RecursiveCharacterTextSplitter."
+    },
+    {
+      "stage": 3,
+      "name": "Tokenization",
+      "folder": "tokenization",
+      "entry_point": "tokenization/token_counter.py",
+      "library": "tiktoken",
+      "description": "Encodes text with cl100k_base and counts tokens."
+    },
+    {
+      "stage": 4,
+      "name": "Embeddings & Similarity",
+      "folder": "embeddings",
+      "entry_points": [
+        "embeddings/embedding.py",
+        "embeddings/similarity_demo.py"
+      ],
+      "libraries": ["sentence-transformers", "scikit-learn"],
+      "description": "Generates 384-dimensional vectors with all-MiniLM-L6-v2 and compares them via cosine similarity."
+    },
+    {
+      "stage": 5,
+      "name": "Vector Database Persistence",
+      "folder": "vector_database",
+      "entry_point": "vector_database/vector_db.py",
+      "library": "chromadb",
+      "description": "Stores documents in a local PersistentClient collection named rag_documents."
+    },
+    {
+      "stage": 6,
+      "name": "End-to-End Ingestion",
+      "folder": "chapter_10_ingestion",
+      "entry_point": "chapter_10_ingestion/ingestion.py",
+      "libraries": [
+        "pypdf",
+        "langchain-text-splitters",
+        "sentence-transformers",
+        "chromadb"
+      ],
+      "description": "Reads PDF pages, splits into 500-char chunks with 50-char overlap, computes normalized embeddings, and upserts into ChromaDB with cosine HNSW space."
+    },
+    {
+      "stage": 7,
+      "name": "Prompting & LLM Generation",
+      "folders": ["prompting", "llm_integration"],
+      "entry_points": [
+        "prompting/prompt.py",
+        "llm_integration/main.py"
+      ],
+      "libraries": ["stdlib", "python-dotenv", "openai"],
+      "description": "Formats structured prompt templates and invokes the OpenAI Responses API."
+    }
+  ],
+  "folders": [
+    {
+      "name": ".",
+      "role": "Root configuration, documentation, and dependency specification",
+      "files": [
+        {
+          "path": ".gitignore",
+          "type": "config",
+          "functionality": "Ignores Python caches, virtual environments, .env files, generated vector_store directories, and OS metadata files."
+        },
+        {
+          "path": "README.md",
+          "type": "documentation",
+          "functionality": "Provides project layout overview, Python 3.10+ virtual environment setup, pip install instructions, and example execution commands."
+        },
+        {
+          "path": "requirements.txt",
+          "type": "dependencies",
+          "functionality": "Lists required Python packages: chromadb, langchain-text-splitters, openai, pypdf, python-dotenv, scikit-learn, sentence-transformers, tiktoken."
+        }
+      ]
+    },
+    {
+      "name": ".vscode",
+      "role": "Editor workspace settings",
+      "files": [
+        {
+          "path": ".vscode/settings.json",
+          "type": "config",
+          "functionality": "Enables git.ignoreLimitWarning in VS Code."
+        }
+      ]
+    },
+    {
+      "name": "text_processing",
+      "role": "Basic word-based text chunking",
+      "files": [
+        {
+          "path": "text_processing/chunk.py",
+          "type": "python_script",
+          "functionality": "Splits a sample string into overlapping word chunks (chunk_size=5, overlap=2, step=3) and prints them."
+        }
+      ]
+    },
+    {
+      "name": "chunking",
+      "role": "Recursive character splitting with LangChain",
+      "files": [
+        {
+          "path": "chunking/chunking.py",
+          "type": "python_script",
+          "functionality": "Uses RecursiveCharacterTextSplitter(chunk_size=50, chunk_overlap=10) to split a multi-line sample text and prints numbered chunks."
+        }
+      ]
+    },
+    {
+      "name": "tokenization",
+      "role": "Tokenization and token counting",
+      "files": [
+        {
+          "path": "tokenization/token_counter.py",
+          "type": "python_script",
+          "functionality": "Encodes sample text using tiktoken cl100k_base and prints the text, token IDs, and token count."
+        }
+      ]
+    },
+    {
+      "name": "embeddings",
+      "role": "Sentence embeddings, similarity computation, and explanatory notes",
+      "files": [
+        {
+          "path": "embeddings/embedding.py",
+          "type": "python_script",
+          "functionality": "Loads SentenceTransformer('all-MiniLM-L6-v2'), encodes 'I love Python programming', and prints the 384-dimensional vector and its length."
+        },
+        {
+          "path": "embeddings/similarity_demo.py",
+          "type": "python_script",
+          "functionality": "Encodes 3 sample sentences with all-MiniLM-L6-v2 and computes cosine similarity between the first sentence and the remaining two."
+        },
+        {
+          "path": "embeddings/embedding_notes.txt",
+          "type": "documentation",
+          "functionality": "Explains embedding.py, dense numerical vectors, and the 384-dimensional output."
+        }
+      ]
+    },
+    {
+      "name": "prompting",
+      "role": "Prompt template construction",
+      "files": [
+        {
+          "path": "prompting/prompt.py",
+          "type": "python_script",
+          "functionality": "Defines create_prompt(topic, level) using str.format on a tutor template and prints a sample prompt for ('Vector Database', 'Beginner')."
+        }
+      ]
+    },
+    {
+      "name": "vector_database",
+      "role": "Local vector database persistence",
+      "files": [
+        {
+          "path": "vector_database/vector_db.py",
+          "type": "python_script",
+          "functionality": "Creates a chromadb.PersistentClient in vector_database/vector_store, gets or creates collection 'rag_documents', and upserts 2 sample documents."
+        }
+      ]
+    },
+    {
+      "name": "chapter_08_document_loading",
+      "role": "PDF text extraction",
+      "files": [
+        {
+          "path": "chapter_08_document_loading/load_pdf.py",
+          "type": "python_script",
+          "functionality": "Defines main() to extract and print non-empty text from documents/fastapi_tutorial.pdf using pypdf.PdfReader; raises ValueError if empty."
+        },
+        {
+          "path": "chapter_08_document_loading/documents/fastapi_tutorial.pdf",
+          "type": "data_pdf",
+          "functionality": "Sample PDF document read by load_pdf.py."
+        }
+      ]
+    },
+    {
+      "name": "llm_integration",
+      "role": "OpenAI Responses API integration",
+      "files": [
+        {
+          "path": "llm_integration/.env",
+          "type": "environment",
+          "functionality": "Stores OPENAI_API_KEY for local execution."
+        },
+        {
+          "path": "llm_integration/main.py",
+          "type": "python_script",
+          "functionality": "Loads llm_integration/.env, validates OPENAI_API_KEY, calls OpenAI().responses.create(model='gpt-5.4', input='Explain Python in simple language.'), and prints response.output_text."
+        }
+      ]
+    },
+    {
+      "name": "chapter_10_ingestion",
+      "role": "End-to-end PDF-to-ChromaDB ingestion pipeline",
+      "files": [
+        {
+          "path": "chapter_10_ingestion/ingestion.py",
+          "type": "python_script",
+          "functionality": "Extracts text per page from documents/fastapi_tutorial.pdf, splits with RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=50), generates normalized all-MiniLM-L6-v2 embeddings, and upserts chunks and metadata into persistent ChromaDB collection 'rag_documents' (cosine space)."
+        },
+        {
+          "path": "chapter_10_ingestion/documents/fastapi_tutorial.pdf",
+          "type": "data_pdf",
+          "functionality": "Sample PDF document ingested by ingestion.py."
+        }
+      ]
+    }
+  ]
+}
